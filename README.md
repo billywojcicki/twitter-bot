@@ -38,3 +38,4 @@ More comprehensive documentation can be found in the code.
 - Create a Lambda layer to import Twitter's tweepy library
 - Add an EventBridge trigger to automatically run `lambda_function.py` at an interval
 - Increase the default timeout configuration if the code needs more than 3s to run
+- Reduce retry attempts configuration to 0 if timeout is desired after set number of seconds
