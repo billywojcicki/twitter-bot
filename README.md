@@ -23,13 +23,13 @@ Each tweet consists of an image, timestamp, episode number, episode title, and m
 - `convert_filename` converts the image filename pattern into readable strings like "01:23 S1E01"
 - `extract_metatitle` uses a regular expression to handle unique filename formats for two-part episodes
 - `get_random_episode` selects a random row from the csv file
-- `lambda_handler` calls the Twitter and S3 APIs, formats the caption, tweets the image, and likes all new tweets containing #Seinfeld
+- `lambda_handler` calls Twitter and S3 APIs, formats the caption, posts the image, and likes relevant tweets
 
 More comprehensive documentation can be found in the code.
 
 ## AWS deployment
 
-- Upload `lambda_handler.py`, `tweets.csv`, and an empty folder named `tmp` to a Lambda function environment
+- Upload `lambda_function.py`, `tweets.csv`, and an empty folder named `tmp` to a Lambda function environment
 - Save Twitter developer keys as enviroment variables in the Lambda configuration:
   - API_KEY
   - API_KEY_SECRET
