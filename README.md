@@ -36,5 +36,5 @@ More comprehensive documentation can be found in the code.
   - ACCESS_TOKEN
   - ACCESS_TOKEN_SECRET
 - Create a Lambda layer to import Twitter's tweepy library
-- Add an EventBridge trigger to automatically run `lambda_handler.py` at an interval
+- Add an EventBridge trigger to automatically run `lambda_function.py` at an interval
 - Increase the default timeout configuration if the code needs more than 3s to run
