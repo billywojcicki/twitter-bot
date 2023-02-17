@@ -85,13 +85,14 @@ def lambda_handler(event, context):
     auth = tweepy.OAuthHandler(api_key, api_key_secret)
     auth.set_access_token(access_token, access_token_secret)
     api = tweepy.API(auth)
+    
 
     # Get random episode strings from tweets.csv
     csv_row = get_random_tweet("tweets.csv")
     episode = csv_row["episode"]
     title = csv_row["title"]
     title, metatitle = extract_metatitle(title)
-
+    
     # Download the selected image from the 'seinfeldframes' S3 bucket
     path = "/tmp/" + episode
     s3 = boto3.resource('s3')
@@ -100,13 +101,12 @@ def lambda_handler(event, context):
     # Format the caption and tweet the image
     media = api.media_upload(filename=path)
     api.update_status(status=convert_filename(episode) + ' "' + title + '"' + metatitle + ' #Seinfeld', media_ids=[media.media_id])
-    return {"statusCode": 200, "episode": episode}
     
-    # Interact with relevant Twitter users to drive engagement
-    # Get all tweets with #seinfeld posted in the last hour
+    
+    # Get all tweets containing "seinfeld" posted in the last hour
     now = datetime.datetime.now()
     past_hour = now - datetime.timedelta(hours=1)
-    search_query = '#seinfeld since:' + past_hour.strftime('%Y-%m-%d_%H:%M:%S')
+    search_query = 'seinfeld since:' + past_hour.strftime('%Y-%m-%d_%H:%M:%S')
     search_results = tweepy.Cursor(api.search_tweets, q=search_query).items()
     
     # Like each tweet in the search results
@@ -117,3 +117,6 @@ def lambda_handler(event, context):
                 print(f"Liked tweet with ID: {tweet.id}")
             except Exception as e:
                 print(f"Error liking tweet with ID: {tweet.id} - {e}")
+    
+    
+    return {"statusCode": 200, "episode": episode}
