@@ -1,5 +1,6 @@
 import boto3
 import csv
+import datetime
 import json
 from pathlib import Path
 import os
@@ -100,3 +101,19 @@ def lambda_handler(event, context):
     media = api.media_upload(filename=path)
     api.update_status(status=convert_filename(episode) + ' "' + title + '"' + metatitle + ' #Seinfeld', media_ids=[media.media_id])
     return {"statusCode": 200, "episode": episode}
+    
+    # Interact with relevant Twitter users to drive engagement
+    # Get all tweets with #seinfeld posted in the last hour
+    now = datetime.datetime.now()
+    past_hour = now - datetime.timedelta(hours=1)
+    search_query = '#seinfeld since:' + past_hour.strftime('%Y-%m-%d_%H:%M:%S')
+    search_results = tweepy.Cursor(api.search_tweets, q=search_query).items()
+    
+    # Like each tweet in the search results
+    for tweet in search_results:
+        if tweet.user.screen_name != "nosoupforyoubot":
+            try:
+                api.create_favorite(tweet.id)
+                print(f"Liked tweet with ID: {tweet.id}")
+            except Exception as e:
+                print(f"Error liking tweet with ID: {tweet.id} - {e}")

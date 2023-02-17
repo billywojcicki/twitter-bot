@@ -1,5 +1,5 @@
 ## About
-The contents of this repo are the AWS Lambda function files that power [**@nosoupforyoubot**](https://twitter.com/nosoupforyoubot), an automated Twitter account that tweets images from the 1990s sitcom *Seinfeld*. The Python script can easily be adjusted to accomplish similar tasks.
+The contents of this repo are the AWS Lambda files that power [**@nosoupforyoubot**](https://twitter.com/nosoupforyoubot), an automated Twitter account that tweets images from the 1990s sitcom *Seinfeld*. The Python script can easily be adjusted to accomplish similar tasks.
 
 [FFmpeg](https://ffmpeg.org/) was used to extract images from video files.
 
@@ -16,14 +16,14 @@ The contents of this repo are the AWS Lambda function files that power [**@nosou
 
 Each image file is stored in an AWS S3 bucket.
 
-## lambda_handler.py
+## lambda_function.py
 
 Each tweet consists of an image, timestamp, episode number, episode title, and may have an episode metatitle:
 
 - `convert_filename` converts the image filename pattern into readable strings like "01:23 S1E01"
 - `extract_metatitle` uses a regular expression to handle unique filename formats for two-part episodes
 - `get_random_episode` selects a random row from the csv file
-- `lambda_handler` calls the Twitter and S3 APIs, formats the caption, and tweets the image
+- `lambda_handler` calls the Twitter and S3 APIs, formats the caption, tweets the image, and likes all new tweets containing #Seinfeld
 
 More comprehensive documentation can be found in the code.
 
@@ -37,3 +37,4 @@ More comprehensive documentation can be found in the code.
   - ACCESS_TOKEN_SECRET
 - Create a Lambda layer to import Twitter's tweepy library
 - Add an EventBridge trigger to automatically run `lambda_handler.py` at an interval
+- Increase the default timeout configuration if the code needs more than 3s to run
