@@ -10,19 +10,21 @@ import tweepy
 
 
 def convert_filename(filename):
-    # Images were extracted from video files every 10 seconds
-    # The following filename pattern was used:
-    #
-    #   S1E01_01.png
-    #   S1E01_02.png
-    #   ...
-    #   S1E01_139.png
-    #   S1E02_01.png
-    #   ...
-    #
-    #
-    #   The incrementing number after the underscore * 10
-    #   == the number of seconds passed when the image was extracted
+    """
+    Images were extracted from video files every 10 seconds
+    The following filename pattern was used:
+    
+      S1E01_01.png
+      S1E01_02.png
+      ...
+      S1E01_139.png
+      S1E02_01.png
+      ...
+    
+    
+      The incrementing number after the underscore * 10
+      is the number of seconds passed when the image was extracted
+    """
     
     # Get the number of seconds from the filename
     seconds = int(os.path.splitext(filename)[0].split("_")[-1]) * 10
